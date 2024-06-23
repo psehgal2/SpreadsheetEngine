@@ -1,0 +1,59 @@
+import context
+
+from sheets.Workbook import Workbook
+import pytest
+from time import time
+from typing import List, Optional, Tuple, Any
+import pytest
+import sheets.CellErrorType as CellErrorType
+
+# Function to generate Pascal's triangle
+def generate_pascals_triangle(n: int) -> List[List[int]]:
+    triangle = [[1]]
+    for i in range(1, n):
+        row = [1]
+        for j in range(1, i):
+            row.append(triangle[i-1][j-1] + triangle[i-1][j])
+        row.append(1)
+        triangle.append(row)
+    return triangle
+
+# Test to check the speed of updating formulas in a massive Pascal's triangle
+@pytest.mark.parametrize("n", [100, 200, 300])  # Adjust the values as needed
+def test_pascals_triangle_speed(n):
+    workbook = Workbook()
+    sheet_name = "PascalsTriangle"
+    workbook.new_sheet(sheet_name)
+
+    # Generate Pascal's triangle
+    triangle = generate_pascals_triangle(n)
+
+    # Set up formulas for each cell in the spreadsheet
+    for i in range(n):
+        for j in range(i+1):
+            cell_location = f"{chr(ord('A')+(j % 26))}{i+1}"
+            col_index = j // 26
+            if col_index > 0:
+                cell_location = f"{chr(ord('A')+(col_index-1))}{cell_location}"
+            formula = f"='{sheet_name}!{chr(ord('A')+(j % 26))}{i}" if j > 0 else "=1"
+            workbook.set_cell_contents(sheet_name, cell_location, formula)
+
+    # Start the timer
+    start_time = time()
+
+    # Update the bottom of the triangle with the actual values
+    for i in range(n):
+        for j in range(i+1):
+            cell_location = f"{chr(ord('A')+(j % 26))}{i+1}"
+            col_index = j // 26
+            if col_index > 0:
+                cell_location = f"{chr(ord('A')+(col_index-1))}{cell_location}"
+            value = triangle[i][j]
+            workbook.set_cell_contents(sheet_name, cell_location, str(value))
+
+    # End the timer
+    end_time = time()
+    execution_time = end_time - start_time
+
+    # Check if the execution time is within a reasonable range
+    assert execution_time < 1.0  # Adjust the threshold as needed

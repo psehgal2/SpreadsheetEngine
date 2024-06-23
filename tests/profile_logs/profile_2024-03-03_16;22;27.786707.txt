@@ -1,0 +1,139 @@
+beginning of profiler log written on 2024-03-03 16:22:38.187006 ran on the computer of eli not plugged in w/ tarjans
+
+##################Running pro_create_sheets... #######################
+for test <function pro_create_sheets at 0x7f81ff260180> total time: 0.05307567300000001
+Total Logs
+         41864 function calls in 0.013 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     5000    0.004    0.000    0.008    0.000 random.py:367(choice)
+     5000    0.003    0.000    0.004    0.000 random.py:235(_randbelow_with_getrandbits)
+     5100    0.002    0.000    0.010    0.000 profiler.py:46(<genexpr>)
+      100    0.001    0.000    0.001    0.000 utils.py:28(check_new_name)
+    10100    0.001    0.000    0.001    0.000 {built-in method builtins.len}
+      100    0.001    0.000    0.011    0.000 {method 'join' of 'str' objects}
+     5162    0.001    0.000    0.001    0.000 {method 'getrandbits' of '_random.Random' objects}
+     5000    0.000    0.000    0.000    0.000 {method 'bit_length' of 'int' objects}
+      100    0.000    0.000    0.002    0.000 Workbook.py:685(new_sheet)
+     5000    0.000    0.000    0.000    0.000 {method 'isalnum' of 'str' objects}
+      100    0.000    0.000    0.011    0.000 profiler.py:43(generate_random_string)
+      100    0.000    0.000    0.002    0.000 Workbook.py:34(run_func)
+      100    0.000    0.000    0.000    0.000 Workbook.py:361(num_sheets)
+      100    0.000    0.000    0.000    0.000 Workbook.py:674(recompute_sheet_parents)
+      100    0.000    0.000    0.000    0.000 Graph.py:117(get_sheet_parents)
+      100    0.000    0.000    0.000    0.000 Sheet.py:25(__init__)
+      100    0.000    0.000    0.000    0.000 utils.py:10(get_hidden_name)
+      100    0.000    0.000    0.000    0.000 Graph.py:110(has_sheet)
+      100    0.000    0.000    0.000    0.000 Graph.py:113(add_sheet)
+      100    0.000    0.000    0.000    0.000 {method 'lower' of 'str' objects}
+      100    0.000    0.000    0.000    0.000 {method 'keys' of 'collections.OrderedDict' objects}
+      100    0.000    0.000    0.000    0.000 {method 'keys' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 cProfile.py:118(__exit__)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+##################Running pro_set_cell_contents... #######################
+for test <function pro_set_cell_contents at 0x7f81ff2602c0> total time: 28.471271994000006
+Total Logs
+         36068446 function calls (36068439 primitive calls) in 6.774 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+  4999500    2.153    0.000    4.810    0.000 random.py:367(choice)
+  4999500    1.645    0.000    2.202    0.000 random.py:235(_randbelow_with_getrandbits)
+  5009499    1.189    0.000    5.999    0.000 profiler.py:46(<genexpr>)
+10039040/10039037    0.458    0.000    0.458    0.000 {built-in method builtins.len}
+    29997    0.386    0.000    6.385    0.000 {method 'join' of 'str' objects}
+  5161236    0.301    0.000    0.301    0.000 {method 'getrandbits' of '_random.Random' objects}
+  4999500    0.257    0.000    0.257    0.000 {method 'bit_length' of 'int' objects}
+     9999    0.036    0.000    0.364    0.000 Workbook.py:550(set_cell_contents)
+   209979    0.033    0.000    0.033    0.000 {method 'lower' of 'str' objects}
+     9999    0.025    0.000    0.050    0.000 utils.py:241(error_matcher)
+     9999    0.025    0.000    0.161    0.000 Sheet.py:60(set_cell_contents)
+     9999    0.023    0.000    0.031    0.000 Graph.py:215(strongConnect)
+     9999    0.020    0.000    0.075    0.000 Cell.py:82(set_cell_value)
+     9999    0.019    0.000    0.028    0.000 utils.py:111(convert_location_to_idx)
+     9999    0.017    0.000    0.102    0.000 Workbook.py:477(recompute_cell_and_parents)
+    19998    0.013    0.000    0.022    0.000 Sheet.py:93(get_cell_value)
+     9999    0.013    0.000    0.037    0.000 Workbook.py:436(recompute_cell_value)
+    39996    0.011    0.000    0.015    0.000 utils.py:10(get_hidden_name)
+     9999    0.010    0.000    6.389    0.001 profiler.py:43(generate_random_string)
+     9999    0.010    0.000    0.012    0.000 profiler.py:25(convert_to_excel_coordinates)
+     9999    0.009    0.000    0.373    0.000 Workbook.py:34(run_func)
+     9999    0.009    0.000    0.040    0.000 Graph.py:201(tarjans)
+     9999    0.009    0.000    0.086    0.000 Cell.py:66(set_contents)
+     9999    0.008    0.000    0.009    0.000 Sheet.py:124(update_extent)
+     9999    0.007    0.000    0.093    0.000 Cell.py:46(__init__)
+    29999    0.007    0.000    0.007    0.000 {method 'get' of 'dict' objects}
+     9999    0.007    0.000    0.014    0.000 Workbook.py:429(get_cell_from_location)
+    19998    0.006    0.000    0.008    0.000 utils.py:144(is_formula)
+     9999    0.006    0.000    0.011    0.000 Workbook.py:396(get_sheet_name_from_hidden)
+     9999    0.006    0.000    0.009    0.000 __init__.py:272(_compile)
+    79992    0.006    0.000    0.006    0.000 {method 'strip' of 'str' objects}
+     9999    0.006    0.000    0.019    0.000 __init__.py:163(match)
+    19998    0.005    0.000    0.005    0.000 {built-in method _heapq.heappush}
+     9999    0.005    0.000    0.024    0.000 utils.py:63(check_valid_cell_location)
+     9999    0.004    0.000    0.004    0.000 {method 'match' of 're.Pattern' objects}
+    20026    0.003    0.000    0.003    0.000 {built-in method builtins.isinstance}
+     9999    0.003    0.000    0.003    0.000 Workbook.py:511(<listcomp>)
+     9999    0.003    0.000    0.003    0.000 Graph.py:126(get_parents_from_cell)
+     9999    0.003    0.000    0.005    0.000 Sheet.py:120(get_cell)
+    30050    0.003    0.000    0.003    0.000 {method 'append' of 'list' objects}
+    20004    0.002    0.000    0.002    0.000 {built-in method builtins.ord}
+     9999    0.002    0.000    0.002    0.000 {method 'pop' of 'list' objects}
+     9999    0.001    0.000    0.001    0.000 Cell.py:120(get_value)
+     9999    0.001    0.000    0.001    0.000 Sheet.py:54(get_sheet_name)
+     9999    0.001    0.000    0.001    0.000 {method 'add' of 'set' objects}
+     9999    0.001    0.000    0.001    0.000 Cell.py:123(get_contents)
+     9999    0.001    0.000    0.001    0.000 {method 'upper' of 'str' objects}
+     9999    0.001    0.000    0.001    0.000 {built-in method builtins.divmod}
+     9999    0.001    0.000    0.001    0.000 {method 'lstrip' of 'str' objects}
+     9999    0.001    0.000    0.001    0.000 {method 'rstrip' of 'str' objects}
+     9999    0.001    0.000    0.001    0.000 {built-in method builtins.chr}
+        1    0.000    0.000    0.000    0.000 _parser.py:509(_parse)
+        1    0.000    0.000    0.000    0.000 _parser.py:449(_parse_sub)
+      3/1    0.000    0.000    0.000    0.000 _compiler.py:37(_compile)
+        1    0.000    0.000    0.000    0.000 _compiler.py:571(_code)
+        1    0.000    0.000    0.000    0.000 _compiler.py:509(_compile_info)
+        3    0.000    0.000    0.000    0.000 _compiler.py:241(_optimize_charset)
+        1    0.000    0.000    0.000    0.000 _parser.py:972(parse)
+        1    0.000    0.000    0.000    0.000 _compiler.py:738(compile)
+       28    0.000    0.000    0.000    0.000 _parser.py:233(__next)
+       19    0.000    0.000    0.000    0.000 _parser.py:164(__getitem__)
+      3/1    0.000    0.000    0.000    0.000 _parser.py:174(getwidth)
+        2    0.000    0.000    0.000    0.000 enum.py:686(__call__)
+       20    0.000    0.000    0.000    0.000 _parser.py:254(get)
+        2    0.000    0.000    0.000    0.000 enum.py:1509(__and__)
+        1    0.000    0.000    0.000    0.000 _parser.py:224(__init__)
+       15    0.000    0.000    0.000    0.000 _parser.py:249(match)
+        3    0.000    0.000    0.000    0.000 _parser.py:446(_uniq)
+        1    0.000    0.000    0.000    0.000 cProfile.py:118(__exit__)
+        3    0.000    0.000    0.000    0.000 _compiler.py:214(_compile_charset)
+        5    0.000    0.000    0.000    0.000 _parser.py:172(append)
+        9    0.000    0.000    0.000    0.000 {method 'find' of 'bytearray' objects}
+        6    0.000    0.000    0.000    0.000 _parser.py:286(tell)
+        7    0.000    0.000    0.000    0.000 _parser.py:160(__len__)
+        2    0.000    0.000    0.000    0.000 _compiler.py:396(_simple)
+        1    0.000    0.000    0.000    0.000 _compiler.py:434(_get_literal_prefix)
+        3    0.000    0.000    0.000    0.000 _parser.py:109(__init__)
+        1    0.000    0.000    0.000    0.000 _parser.py:73(__init__)
+        3    0.000    0.000    0.000    0.000 {built-in method fromkeys}
+        2    0.000    0.000    0.000    0.000 enum.py:1091(__new__)
+        7    0.000    0.000    0.000    0.000 {built-in method builtins.min}
+        1    0.000    0.000    0.000    0.000 _parser.py:956(fix_flags)
+        2    0.000    0.000    0.000    0.000 _compiler.py:568(isstring)
+        1    0.000    0.000    0.000    0.000 _compiler.py:465(_get_charset_prefix)
+        1    0.000    0.000    0.000    0.000 {built-in method _sre.compile}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        2    0.000    0.000    0.000    0.000 _parser.py:168(__setitem__)
+        2    0.000    0.000    0.000    0.000 _parser.py:79(groups)
+        2    0.000    0.000    0.000    0.000 _compiler.py:426(_get_iscased)
+        1    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+
+
+
+##################Running pro_update_formula_chain... #######################

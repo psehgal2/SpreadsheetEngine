@@ -1,0 +1,80 @@
+NOTE: Our profiler code prints measurements and those are stored locally on team members machine to prevent
+cluttering stuff. PLEASE PUT tests/profile_logs in your git ignore!!!!!!!
+
+### Topic: Copying Cells is not optimal
+Theory: We think that copying cells is not optimal.
+
+Rationale: This was due to the performance benchmarks coming back for the copying and moving of cells. 
+
+Here are the list of the performance benchmarks as a result of moving and copying cells
+MoveCellsSameSheetBenchmark score: 0.0/0.0 * 2.731s (refimpl 0.926s) - 2.9x slower MoveCellsDifferentSheetBenchmark score: 0.0/0.0 * 2.760s (refimpl 0.933s) - 3.0x slower CopyCellsSameSheetBenchmark score: 0.0/0.0 * 2.553s (refimpl 0.908s) - 2.8x slower CopyCellsDifferentSheetBenchmark score: 0.0/0.0 * 2.624s (refimpl 0.906s) - 2.9x slower
+
+Theory: We are doing unnecessary parses when we copy and move sheet
+
+Rationale: After running the profiler, we saw that most of the time spent when doing a move cell operation, 
+we just kind of set cell contents for the cell. However, we know that the cell must already exist if it's
+moved. Therefore, we can simply use the cached parse tree, as we know tha the cached parse tree is a lot faster
+than using the not cached parse tree, avoiding unnecessary recomputes.
+
+Outcome: We implemented the transfer cells method to just use the cells instead of the straight up cell contents. This way we can already use the cached parse tree to evaluate cell contents. We know that every cell that has been set would get parsed, by that, we can use our tranform the function to convert them to their new place without doing the reparsing
+
+Before:
+
+for test <function pro_copy_cells2 at 0x0000017F1670A5E0> total time: 248.60076740000005
+Total Logs
+         37084339 function calls (36823915 primitive calls) in 24.484 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    35739    4.157    0.000   14.315    0.000 earley.py:78(predict_and_complete)
+  1658151    2.294    0.000    3.486    0.000 earley_common.py:9(_init_)
+     5247    1.661    0.000    5.785    0.001 earley_forest.py:283(visit)
+4275374/4112465    1.232    0.000    1.578    0.000 {built-in method builtins.hash}
+
+After: 
+##################Running pro_copy_cells2... #######################
+for test <function pro_copy_cells2 at 0x000002B4D81EA5E0> total time: 160.0010863999999
+Total Logs
+         23815268 function calls (23572565 primitive calls) in 14.553 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    23661    2.316    0.000    7.919    0.000 earley.py:78(predict_and_complete)
+  1006929    1.285    0.000    1.962    0.000 earley_common.py:9(_init_)
+     5148    0.956    0.000    3.403    0.001 earley_forest.py:283(visit)
+2626628/2509952    0.699    0.000    0.910    0.000 {built-in method builtins.hash}
+
+
+We got significantly faster as a result of using the cached parser
+
+
+
+### Topic: Copy Sheet is Really slow
+
+Theory: We think that we're doing unnecessary recomputes, and even parses when copying sheets.
+
+Rationale: Right now, we are literally going into a new sheet, and just doing set_cell_contents for each of the cells
+This works fine and gets the job done. 
+However, we think that copying a sheet that won't have another sheet referencing the new sheet could be optimized a lot faster.
+This is because the cell values and contents are actually the same, and there is no updating to be needed as everything is contained within the sheet. 
+When there are lots of cells that reference each other, the graph will call recompute_cell_and_parents many many unnecessary times, as we know what the right values for each of the cells are. 
+
+
+
+Outcome: We realized that we would need a special set cell contents to differentiate between when we're adding a new sheet where no other cells rely on being updated with this new sheets cells.
+We then made sure to use the cache_formula as well as the cached values from the pre copied sheet because those values will be the same.
+
+
+Before: 
+##################Running pro_copy_massive_sheet2... #######################
+for test <function pro_copy_massive_sheet2 at 0x7fa56c585d00> total time: 338.61236217200013
+Total Logs
+         92950497 function calls (92510583 primitive calls) in 29.678 seconds
+
+After: 
+##################Running pro_copy_massive_sheet2... #######################
+for test <function pro_copy_massive_sheet2 at 0x7fe8634116c0> total time: 4.631572008000004
+Total Logs
+         1559812 function calls (1469828 primitive calls) in 0.676 seconds

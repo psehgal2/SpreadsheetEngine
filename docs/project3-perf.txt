@@ -1,0 +1,68 @@
+NOTE: Our profiler code prints measurements and those are stored locally on team members machine to prevent
+cluttering stuff. PLEASE PUT tests/profile_logs in your git ignore!!!!!!!
+
+
+### Topic: Big Formula Graphs are Problematic.
+Theory: We think that our code for handling large graphs of interdependent formulas that require many updates is
+slow.
+Rationale: We got below a 10 on the following shadow grade stuff for our performance:
+FibBenchmark score : 20.0/20.0 * 1.440s (refimpl 0.995s) - 1.4x slower
+PascalBenchmark score : 0.0/20.0 * 19.346s (refimpl 1.512s) - 12.8x slower
+Outcome: Implemented those tests (or similar ones) ourselves and then used the cProfiler to try and find hotspot areas.
+
+###
+Theory: Changing to a Graph class will make our code slower.
+Rationale: Our big refactor moves our graph information out of our cells (where they had local children and parents)
+And to a global dictionary of cell parents indexed by their child locations. Thus we have to check a global hashtable vs
+just going off a local thing.
+Outcome: We actually found that this made our code faster. We got a 15% speed up on Pascals and other benchmarks
+were either unchanged or faster. UPDATE: Donnie told us that this speed up might be due to one global object being
+easier for the cpu to cache memory when accessing.
+DATA:
+pre graph pascals :          117764323 function calls (117260365 primitive calls) in 42.873 seconds
+post graph pascals :         117499460 function calls (116995504 primitive calls) in 37.524 seconds
+
+
+###
+Theory: Parser Caching could help
+Rationale: Our old project 2 profiler code + our new tests showed that most of the time spent while "updating" a
+very long formula is in the parts of our parse tree. For example, in our Pascal's triangle test we have that:
+36.587 seconds out of the total 37.5 seconds it takes to run the test is spent in "parser_frontends" in Lark (and also
+in the functions that it calls ofc).
+We also call it 26524 times despite the fact that we only write the formulas 50*2 times to actually 'update'
+the triangle when we're profiling. This is because we're re parsing every formula after calling.
+Outcome: We created a way of caching the parser and we're running WAY faster. We got down from 37.524 secs to 0.944
+seconds.
+DATA:
+pre cache pascals:          117499460 function calls (116995502 primitive calls) in 37.524 seconds
+post cache pascals:                   2996237 function calls in 0.944 seconds
+
+
+###
+Theory: We might be better off just using "set cell" multiple times to copy a sheet.
+Rationale: We have a test called "Copy Massive Sheet" and in that test we spend basically all of our time in the
+deep copy function. I googled it and deep copy is not always natively faster than user methods for reconstructing
+the object. (Especially when we need to go in and change certain things about the obejct anyways). Plus we are
+having certain errors with cell notifications that could be solved with this change.
+Outcome: We had the method just create a new sheet and then write a cell. We saw ~20% speed up and our notification
+bugs are gone.
+DATA:
+pre change copy_massive_sheet:          11500139 function calls (9700124 primitive calls) in 3.155 seconds
+post change copy_massive_sheet:          6600051 function calls (6500050 primitive calls) in 2.725 seconds
+
+
+###
+Theory: We have too many try and excepts.
+Rationale: Cprofile didn't really pick up on this but we spoke with the TA jake and he said try and accepts are very
+slow. This concurs with a lot of my experience using python.
+Outcome: We removed try and excepts and moved as many things out of try and except blocks as possible. This
+actually did speed things up considerably. We got a 1 second speed up on our Pascals triangle stuff.
+DATA:
+Was motivated by TA advice. Measurement wasn't properly logged.
+
+
+
+
+
+
+
